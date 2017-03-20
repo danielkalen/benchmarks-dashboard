@@ -1,5 +1,5 @@
 require('array-includes').shim()
-global.Promise = require 'bluebird'
+Promise = require 'bluebird'
 fs = require 'fs-jetpack'
 path = require 'path'
 pug = require 'pug'
@@ -10,15 +10,17 @@ chalk = require 'chalk'
 defaults = require '../defaults'
 INDEX_SOURCE_PATH = path.resolve __dirname,'..','client','html','index.jade'
 RUNNER_SOURCE_PATH = path.resolve __dirname,'..','client','html','benchmarkSuite.jade'
+PKG_FOLDERS = ['node_modules', 'bower_components']
 
 module.exports = (options, fromCLI)->
 	options = extend.clone(defaults.build, options)
-	ignoreListPath = path.resolve(options.src, 'ignores.json')
-	ignoreList = if fs.exists(ignoreListPath) then fs.read(ignoreListPath, 'json') else []
 
 	fs.listAsync(options.src).then (files)->
+		ignoreList = if files.includes('ignores.json') then fs.read(path.join(options.src,'ignores.json'), 'json') else []
+		chartsList = if files.includes('charts.json') then fs.read(path.join(options.src,'charts.json'), 'json') else []
+		colorsList = if files.includes('colors.json') then fs.read(path.join(options.src,'colors.json'), 'json') else {}
 		suites = files.filter (file)-> fs.inspect(path.resolve options.src,file).type isnt 'file'
-		suites = sortSuitesByVersion(suites).filter (file)-> not ignoreList.includes(file) and not file.includes('node_modules')
+		suites = sortSuitesByVersion(suites).filter (file)-> not ignoreList.includes(file) and not PKG_FOLDERS.some((pkg)-> file is pkg)
 		libraries = []
 
 		Promise.map suites, (suite)->
@@ -33,24 +35,11 @@ module.exports = (options, fromCLI)->
 			
 			# ==== Build Test Runner =================================================================================
 			Promise.props
-				deps: if suiteFiles.includes('deps.json') then fs.readAsync(path.resolve(options.src,suiteDir,'deps.json'), 'json') else []
-				suiteFile: do ()->
-					isCoffee = suiteFiles.includes('suite.coffee')
-					suiteFile = if isCoffee then 'suite.coffee' else 'suite.js'
-					
-					fs.readAsync(path.resolve(options.src, suiteDir, suiteFile))
-						.then (content)-> SimplyImport(content, null, {isStream:true, isCoffee})
-						.then (content)-> if isCoffee then coffee.compile(content, bare:true) else content
+				deps: getDepsArray(options, suite, suiteFiles)
+				suiteFile: getCompiledSuiteFile(options, suite, suiteFiles)
 			
 			.then ({deps, suiteFile})->
-				depsDir = path.join options.dest ,suiteDir, 'deps'
-				depsMigration = fs.dirAsync(depsDir).then ()->
-					Promise.map deps, (depSrc)->
-						depDest = path.join depsDir, path.basename(depSrc)
-						fs.copyAsync(depSrc, depDest)
-							.then ()-> path.join 'deps', path.basename(depSrc)
-			
-				depsMigration.then (deps)->
+				migrateDeps(options, suiteDir, suite, deps).then (deps)->
 					suiteRunner = pug.renderFile RUNNER_SOURCE_PATH, {title, name, version, deps, pretty:true}
 
 					fs.writeAsync path.join(options.dest, suiteDir, 'suite.js'), suiteFile
@@ -66,13 +55,37 @@ module.exports = (options, fromCLI)->
 
 		.then (libraries)->
 			# ==== Build Index =================================================================================
-			indexHTML = pug.renderFile INDEX_SOURCE_PATH, {libraries, ignoreList, pretty:true}
+			indexHTML = pug.renderFile INDEX_SOURCE_PATH, {options, libraries, ignoreList, chartsList, colorsList, pretty:true}
 			fs.writeAsync path.join(options.dest, 'index.html'), indexHTML
 
 
 
 
+getDepsArray = (options, suite, suiteFiles)->
+	if suiteFiles.includes('deps.json')
+		fs.readAsync(path.resolve(suite,'deps.json'), 'json')
+	else
+		[]
 
+
+getCompiledSuiteFile = (options, suite, suiteFiles)->
+	isCoffee = suiteFiles.includes('suite.coffee')
+	suiteFile = if isCoffee then 'suite.coffee' else 'suite.js'
+	
+	fs.readAsync(path.resolve(suite, suiteFile))
+		.then (content)-> SimplyImport(content, null, {isStream:true, isCoffee, context:suite})
+		.then (content)-> if isCoffee then coffee.compile(content, bare:true) else content
+
+
+migrateDeps = (options, suiteDir, suite, deps)->
+	depsDir = path.join options.dest, suiteDir, 'deps'
+	fs.dirAsync(depsDir).then ()->
+		Promise.map deps, (depSrc)->
+			depSrc = path.join suite, depSrc
+			depDest = path.join depsDir, path.basename(depSrc)
+
+			fs.copyAsync(depSrc, depDest, overwrite:true)
+				.then ()-> path.join 'deps', path.basename(depSrc)
 
 
 sortSuitesByVersion = (suites)->

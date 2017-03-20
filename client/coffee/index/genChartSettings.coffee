@@ -1,4 +1,4 @@
-genChartSettings = (options, chartData, categories, showDataLabels=false)->
+module.exports = (options, chartData, categories, showDataLabels=false)->
 	'series': [{data:chartData}]
 	'chart': 'type': options.chartType
 	'colors': options.colors

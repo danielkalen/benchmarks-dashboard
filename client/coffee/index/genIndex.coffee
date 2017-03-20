@@ -1,4 +1,4 @@
-genIndex = (options)->
+module.exports = (options)->
 	gapEl$ = chartsContainer$.children().last()
 	chartsContainer$.empty().append(gapEl$)
 
@@ -29,28 +29,26 @@ genIndex = (options)->
 	
 	allDrilldownData = allChartData
 		.map (series)-> series.drilldown
-		# .reduce (a,b)->
-		# 	console.log a,b 
 	
-	
-	allChartData = allChartData
-		.map (series)->
-			output = {}
-			output[point.name] = point for point in series
-			return output
+	if allChartData.length
+		allChartData = allChartData
+			.map (series)->
+				output = {}
+				output[point.name] = point for point in series
+				return output
 
-		.reduce (a,b)-> 
-			combined = {}
+			.reduce (a,b)-> 
+				combined = {}
 
-			for pointName,point of a
-				combined[pointName] =
-					'y': (a[pointName]?.y or 0) + (b[pointName]?.y or 0)
-					'x': point.x
-					'color': point.color
-					'name': point.name
-					'library': point.library
+				for pointName,point of a
+					combined[pointName] =
+						'y': (a[pointName]?.y or 0) + (b[pointName]?.y or 0)
+						'x': point.x
+						'color': point.color
+						'name': point.name
+						'library': point.library
 
-			return combined
+				return combined
 
 
 	categories = Object.keys(allChartData)

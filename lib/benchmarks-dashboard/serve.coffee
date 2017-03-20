@@ -9,16 +9,17 @@ fs = require 'fs-jetpack'
 defaults = require '../defaults'
 
 
-module.exports = (options)->
-	options = extend.clone(defaults.serve, options)
+module.exports = (port, options)->
+	options = extend.clone(defaults.serve, options, {port})
 	app = express()
 
 	DB = new ()->
 		@results = {}
 		STORE_PATH = path.resolve(options.dashboard, 'results.json')
 		
-		fs.fileAsync(STORE_PATH, content:'{}').then ()=>
-			fs.readAsync(STORE_PATH, 'json').then (@results)=>
+		fs.fileAsync(STORE_PATH).then ()=>
+			fs.readAsync(STORE_PATH).then (results)=>
+				@results = JSON.parse(results) if results
 
 		@save = ()-> fs.writeAsync(STORE_PATH, @results)
 		

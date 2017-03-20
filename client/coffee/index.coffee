@@ -1,16 +1,17 @@
 Promise = PromiseB = import 'bluebird'
-import * as SimplyBind from '@danielkalen/simplybind'
-import '@danielkalen/highcharts/code/highcharts.src.js'
-import '@danielkalen/highcharts/code/modules/drilldown.src.js'
-import * as UAParser from 'ua-parser-js'
+SimplyBind = import '@danielkalen/simplybind'
+Highcharts = import '@danielkalen/highcharts/dist'
+HighchartsDrilldown = import '@danielkalen/highcharts/dist/highcharts/code/modules/drilldown.js'
+UAParser = import 'ua-parser-js'
 
 do ($=jQuery)->
-	import './index/markup'
-	import './index/defaults'
 	import './index/helpers'
-	import './index/genIndex'
-	import './index/genChartSettings'
-
+	markup = import './index/markup'
+	defaultOptions = import './index/defaults'
+	genIndex = import './index/genIndex'
+	genChartSettings = import './index/genChartSettings'
+	chartsContainer$ = $('.BenchmarksDashboard-charts')
+	
 	window.indexCharts = (options={})->
 		options = extendDefaultOptions(options)
 		

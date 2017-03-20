@@ -92,7 +92,7 @@ do ($=jQuery)->
 						@testFn()
 						endTime = performance.now()
 
-					iteration-- if endTime-startTime is 0
+					# iteration-- if endTime-startTime is 0
 					totalTime += endTime-startTime
 					
 					if iteration is timesToRun
@@ -113,20 +113,18 @@ do ($=jQuery)->
 							@testFn()
 							endTime = performance.now()
 
-						iteration-- if endTime-startTime is 0
+						# iteration-- if endTime-startTime is 0
 						totalTime += endTime-startTime
 						
 						if iteration is timesToRun
 							resolve(totalTime)
 				
 
-		warmUp = ()=> performIteration(@warmUps)
-		beginTest = ()=> performIteration(@timesToRun)
 
 
 		@setup()
-			.then(warmUp)
-			.then(beginTest)
+			.then ()=> performIteration(@warmUps)
+			.then ()=> performIteration(@timesToRun)
 			.then (result)=>
 				formatTime = (time, returnTime)=>
 					if returnTime

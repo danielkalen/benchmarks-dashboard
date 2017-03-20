@@ -1,4 +1,4 @@
-markup =	
+module.exports =	
 	item: "
 		<div class='BenchmarksDashboard-charts-item {{nonSharedTest}} {{fullWidth}}'>
 			<div class='BenchmarksDashboard-charts-item-innerwrap'>

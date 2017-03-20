@@ -1,8 +1,8 @@
+global.Promise = require 'bluebird'
 program = require 'commander'
 chalk = require 'chalk'
 extend = require 'smart-extend'
 BenchmarksDashboard = require './benchmarks-dashboard'
-defaults = require './defaults'
 specifiedCommand = false
 defaults = extend.clone.deep.transform(
 	src: (src)-> "./#{src}"
@@ -18,6 +18,8 @@ program
 	.description "Build the client-side files for the dashboard from the specified source dir"
 	.option '-s --src <path>', "Path of dir containing benchmark suites [default: #{chalk.dim defaults.build.src}]"
 	.option '-d --dest <path>', "Path of destination directory to write files to [default: #{chalk.dim defaults.build.dest}]"
+	.option '--title <string>', "Title of the benchmarks dashboard page [default: #{chalk.dim defaults.build.title}]"
+	.option '--subtitle <string>', "Subtitle/description of the benchmarks dashboard page [default: #{chalk.dim defaults.build.subtitle}]"
 	.action (options)-> specifiedCommand = BenchmarksDashboard.build(options, true)
 
 program
@@ -28,6 +30,8 @@ program
 	.option '-d --runDelay <ms>', "Amount of time in ms to wait between each benchmark execution [default: #{chalk.dim defaults.run.runDelay}]"
 	.option '-s --direction <asc|desc>', "Sort direction order to execute the benchmarks in [default: #{chalk.dim defaults.run.direction}]"
 	.option '-w --dontClose', "Avoid closing the browser after completing the automated run [default: #{chalk.dim defaults.run.dontClose}]"
+	.option '-H --host <hostname>', "Hostname of the Benchmarks Dashboard server [default: #{chalk.dim defaults.run.host}]"
+	.option '-P --port <port>', "Port of the Benchmarks Dashboard server [default: #{chalk.dim defaults.run.port}]"
 	.action (suiteName, options)-> specifiedCommand = BenchmarksDashboard.run(suiteName, options)
 
 program

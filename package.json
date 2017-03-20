@@ -1,6 +1,6 @@
 {
   "name": "@danielkalen/benchmarks-dashboard",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Pretty benchmarks dashboard with heavily-configurable benchmarks suites and comparison charts",
   "main": "index.js",
   "mocha_opts": "-u tdd --compilers coffee:coffee-script/register --slow 3000 --timeout 8000",
@@ -46,7 +46,8 @@
   },
   "homepage": "https://github.com/danielkalen/benchmarks-dashboard#readme",
   "devDependencies": {
-    "@danielkalen/highcharts": "^5.0.4",
+    "@danielkalen/highcharts": "^5.0.4-dist2",
+    "@danielkalen/polyfills": "^1.1.0",
     "@danielkalen/sass-base": "^1.4.0",
     "badge-gen": "^1.0.1",
     "chai": "^3.5.0",
@@ -59,7 +60,6 @@
     "timeunits": "^1.0.2"
   },
   "dependencies": {
-    "@danielkalen/polyfills": "^1.1.0",
     "@danielkalen/simplybind": "^1.14.4",
     "array-includes": "^3.0.2",
     "bluebird": "^3.5.0",
@@ -71,6 +71,8 @@
     "fs-jetpack": "^0.13.1",
     "humanize": "0.0.9",
     "jquery": "^3.2.0",
+    "moment": "^2.18.0",
+    "moment-duration-format": "^1.3.0",
     "pug": "^2.0.0-beta11",
     "selenium-webdriver": "^3.3.0",
     "smart-extend": "^1.3.2",
