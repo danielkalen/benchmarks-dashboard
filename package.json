@@ -24,6 +24,7 @@
     "client:watch": "npm run client:watch:coffee & npm run client:watch:sass",
     "client:watch:coffee": "simplywatch -g 'client/coffee/*.coffee' -x \"$npm_package_compileCoffee\"",
     "client:watch:sass": "simplywatch -g 'client/sass/*.sass' -x \"$npm_package_compileSass\"",
+    "client:takana": "fontsDir=client/fonts takana -n -f $(pwd)/$npm_package_sassFns $(pwd)/client",
     "coverage": "npm run build && npm run coverage:run && npm run coverage:badge",
     "coverage:run": "cd test && forCoverage=true istanbul cover --dir coverage ../node_modules/mocha/bin/_mocha -- $npm_package_mocha_opts ./",
     "coverage:badge": "badge-gen -d ./.config/badges/coverage",

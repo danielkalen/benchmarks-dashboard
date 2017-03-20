@@ -16,11 +16,9 @@ module.exports = (options, fromCLI)->
 	options = extend.clone(defaults.build, options)
 
 	fs.listAsync(options.src).then (files)->
-		ignoreList = if files.includes('ignores.json') then fs.read(path.join(options.src,'ignores.json'), 'json') else []
-		chartsList = if files.includes('charts.json') then fs.read(path.join(options.src,'charts.json'), 'json') else []
-		colorsList = if files.includes('colors.json') then fs.read(path.join(options.src,'colors.json'), 'json') else {}
+		config = getConfig(options, files)
 		suites = files.filter (file)-> fs.inspect(path.resolve options.src,file).type isnt 'file'
-		suites = sortSuitesByVersion(suites).filter (file)-> not ignoreList.includes(file) and not PKG_FOLDERS.some((pkg)-> file is pkg)
+		suites = sortSuitesByVersion(suites).filter (file)-> not config.ignores.includes(file) and not PKG_FOLDERS.some((pkg)-> file is pkg)
 		libraries = []
 
 		Promise.map suites, (suite)->
@@ -55,10 +53,16 @@ module.exports = (options, fromCLI)->
 
 		.then (libraries)->
 			# ==== Build Index =================================================================================
-			indexHTML = pug.renderFile INDEX_SOURCE_PATH, {options, libraries, ignoreList, chartsList, colorsList, pretty:true}
+			indexHTML = pug.renderFile INDEX_SOURCE_PATH, {options, libraries, config, pretty:true}
 			fs.writeAsync path.join(options.dest, 'index.html'), indexHTML
 
 
+getConfig = (options, files)->
+	config = if files.includes('config.json') then fs.read(path.join(options.src,'config.json'), 'json') else {}
+	config.ignores ?= []
+	config.order ?= []
+	config.meta ?= {}
+	return config
 
 
 getDepsArray = (options, suite, suiteFiles)->

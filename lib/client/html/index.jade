@@ -102,11 +102,11 @@ html
 		script(src='/js/jquery.js')
 		script(src='/js/humanize.js')
 		script(src='/js/index.js')
-		script window.ignoreList = !{JSON.stringify(ignoreList)};
+		script window.ignoreList = !{JSON.stringify(config.ignores)};
 		script.
 			indexCharts({
-				chartsOrderMap: !{JSON.stringify(chartsList)},
-				itemsMap: !{JSON.stringify(colorsList)},				
+				chartsOrderMap: !{JSON.stringify(config.order)},
+				itemsMap: !{JSON.stringify(config.meta)},				
 			})
 
 
