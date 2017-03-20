@@ -1,0 +1,142 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		link(rel="stylesheet", href="/css/index.css")
+		script(src='http://localhost:48626/takana.js')
+		script.
+			if (typeof takanaClient !== 'undefined')
+				takanaClient.run({host: 'localhost:48626'});
+		
+		title Benchmarks Dashboard
+
+	
+
+	body
+		.BenchmarksDashboard_heading
+			.BenchmarksDashboard_heading-title Data Binding Comparison
+			.BenchmarksDashboard_heading-subtitle A rich comparison of various implemenations of data binding
+		
+		.BenchmarksDashboard_index
+			each subject in libraries
+				.BenchmarksDashboard_index-item
+					.BenchmarksDashboard_index-item-innerwrap
+						.BenchmarksDashboard_index-item-title
+							span.BenchmarksDashboard_index-item-title-name=subject.title
+							span.BenchmarksDashboard_index-item-title-version=' '+subject.version
+						
+						a.BenchmarksDashboard_index-item-button(href=subject.location)
+							.BenchmarksDashboard_index-item-button-text Open Benchmarks Suite
+
+		
+		.BenchmarksDashboard_divider
+			.BenchmarksDashboard_divider-line
+			.BenchmarksDashboard_divider-text Results
+		
+		.BenchmarksDashboard_charts
+			.BenchmarksDashboard_charts-gap
+		
+		.BenchmarksDashboard_settingsBar
+			.BenchmarksDashboard_settingsBar-innerwrap
+				.BenchmarksDashboard_settingsBar-title Settings
+				.BenchmarksDashboard_settingsBar-list#settingsBar
+					
+					-
+						var settings = [
+							{
+								name: 'valueType',
+								label: 'Value Type',
+								options: [
+									{
+										name: 'ops',
+										label: 'Op/s'
+									},
+									{
+										name: 'points',
+										label: 'Points'
+									}
+								]
+							},
+							{
+								name: 'chartType',
+								label: 'Chart Type',
+								options: [
+									{
+										name: 'bar',
+										label: 'Bar'
+									},
+									{
+										name: 'column',
+										label: 'Column'
+									}
+								]
+							},
+							{
+								name: 'browserData',
+								label: 'Browser Data',
+								options: [
+									{
+										name: 'current',
+										label: 'Only Current'
+									},
+									{
+										name: 'all',
+										label: 'All Browsers'
+									}
+								]
+							}
+						]
+
+					each setting in settings
+						.BenchmarksDashboard_settingsBar-list-item(id=setting.name)
+							.BenchmarksDashboard_settingsBar-list-item-label=setting.label
+							
+							.BenchmarksDashboard_settingsBar-list-item-options
+								each option in setting.options
+									.BenchmarksDashboard_settingsBar-list-item-options-item(class='{{state}}', data-name=option.name)=option.label
+
+
+
+
+		script(src='/js/polyfills.js')
+		script(src='/js/jquery.js')
+		script(src='/js/humanize.js')
+		script(src='/js/index.js')
+		script window.ignoreList = !{JSON.stringify(ignoreList)};
+		script.
+			indexCharts({
+				chartsOrderMap: [
+					"Object Update",
+					"Input Update",
+					"Input x100 Update",
+					"Input Transform",
+					"Div HTML Update",
+					"Div HTML Same Update",
+					"Div HTML Placeholder",
+					"Div HTML 250 Placeholders",
+					"Div Text Update",
+					"Div Text Placeholder",
+					"Create 1k DOM Els",
+					"Update 1k DOM Els",
+					"Create DOM Bindings",
+					"Create Object Bindings",
+					"Rebind existing bindings"
+				],
+				
+				itemsMap: {
+					// 'Native': 		{index:0, color:'#ff5e3a'},
+					'Native': 		{index:0, color:'#dbddde'},
+					'SimplyBind': 	{index:1, color:'#ff9500'},
+					'ReactJS': 		{index:2, color:'#ffdb4c'},
+					'AngularJS': 	{index:3, color:'#87fc70'},
+					'VueJS': 		{index:4, color:'#52edc7'},
+					'Polymer': 		{index:5, color:'#1ad6fd'},
+					'KnockoutJS': 	{index:6, color:'#c644fc'},
+					'Aurelia': 		{index:7, color:'#ef4db6'},
+					'CycleJS': 		{index:8, color:'#4a4a4a'},
+					'Mithril': 		{index:9, color:'#ff5e3a'},
+					'Plastiq': 		{index:10, color:'#ff5e3a'}
+				}
+			})
+
+

@@ -1,0 +1,79 @@
+{
+  "name": "@danielkalen/benchmarks-dashboard",
+  "version": "1.0.0",
+  "description": "Pretty benchmarks dashboard with heavily-configurable benchmarks suites and comparison charts",
+  "main": "index.js",
+  "mocha_opts": "-u tdd --compilers coffee:coffee-script/register --slow 3000 --timeout 8000",
+  "compileCoffee": "simplyimport -i {{path}} | coffee -cbs > lib/client/js/{{name}}.js",
+  "compileSass": "fontsDir=client/fonts node-sass --functions $(pwd)/$npm_package_sassFns -x -q --output-style compressed {{path}} --output lib/client/css/",
+  "sassFns": "node_modules/@danielkalen/sass-base/compiler-fns.js",
+  "bin": {
+    "benchmarks": "./bin",
+    "benchmarks-dashboard": "./bin"
+  },
+  "scripts": {
+    "build": "npm run compile && npm run prependbin && npm run makeexec",
+    "compile": "npm run compile:module && npm run compile:bin",
+    "compile:module": "foreach -g 'lib/*.coffee' -x 'cat {{path}} | coffee -c -s -b > forCoverage/{{name}}.js' && cp -r lib/templates forCoverage/templates",
+    "compile:bin": "coffee -o ./forCoverage -c -b lib/cli.coffee",
+    "prependbin": "echo '#!/usr/bin/env node' | cat - forCoverage/cli.js > forCoverage/bin && rm -rf forCoverage/cli.js",
+    "makeexec": "chmod +x forCoverage/bin",
+    "client:compile": "npm run client:compile:coffee && npm run client:compile:sass",
+    "client:compile:coffee": "foreach -g 'client/coffee/*.coffee' -x \"$npm_package_compileCoffee\"",
+    "client:compile:sass": "foreach -g 'client/sass/*.sass' -x \"$npm_package_compileSass\"",
+    "client:watch": "npm run client:watch:coffee & npm run client:watch:sass",
+    "client:watch:coffee": "simplywatch -g 'client/coffee/*.coffee' -x \"$npm_package_compileCoffee\"",
+    "client:watch:sass": "simplywatch -g 'client/sass/*.sass' -x \"$npm_package_compileSass\"",
+    "coverage": "npm run build && npm run coverage:run && npm run coverage:badge",
+    "coverage:run": "cd test && forCoverage=true istanbul cover --dir coverage ../node_modules/mocha/bin/_mocha -- $npm_package_mocha_opts ./",
+    "coverage:badge": "badge-gen -d ./.config/badges/coverage",
+    "test:debug": "cd test && mocha $npm_package_mocha_opts --debug-brk --inspect",
+    "test": "cd test && mocha $npm_package_mocha_opts ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielkalen/benchmarks-dashboard.git"
+  },
+  "keywords": [
+    "benchmark",
+    "dashboard",
+    "panel"
+  ],
+  "author": "danielkalen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielkalen/benchmarks-dashboard/issues"
+  },
+  "homepage": "https://github.com/danielkalen/benchmarks-dashboard#readme",
+  "devDependencies": {
+    "@danielkalen/highcharts": "^5.0.4",
+    "@danielkalen/sass-base": "^1.4.0",
+    "badge-gen": "^1.0.1",
+    "chai": "^3.5.0",
+    "coffee-script": "^1.12.4",
+    "foreach-cli": "^1.7.1",
+    "mocha": "^3.2.0",
+    "node-sass": "^4.5.0",
+    "simplyimport": "^3.3.0",
+    "simplywatch": "^2.4.7",
+    "timeunits": "^1.0.2"
+  },
+  "dependencies": {
+    "@danielkalen/polyfills": "^1.1.0",
+    "@danielkalen/simplybind": "^1.14.4",
+    "array-includes": "^3.0.2",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.1",
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0",
+    "compression": "^1.6.2",
+    "express": "^4.15.2",
+    "fs-jetpack": "^0.13.1",
+    "humanize": "0.0.9",
+    "jquery": "^3.2.0",
+    "pug": "^2.0.0-beta11",
+    "selenium-webdriver": "^3.3.0",
+    "smart-extend": "^1.3.2",
+    "ua-parser-js": "^0.7.12"
+  }
+}

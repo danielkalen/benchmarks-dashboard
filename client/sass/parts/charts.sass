@@ -1,0 +1,73 @@
+&-charts
+	padding: 0 20px
+	margin-top: 30px
+	text-align: justify
+	text-justify: distribute-all-lines
+	font-size: 0
+	&:after
+		content: ''
+		display: inline-block
+		width: 100%
+
+	&-gap
+		display: inline-block
+		width: 49%
+
+	&-item
+		position: relative
+		display: inline-block
+		vertical-align: top
+		width: 49%
+		margin-bottom: 25px
+		background-color: white
+		border-radius: 3px
+		box-shadow: 0px 0px 5px rgba(0,0,0,0.07)
+		font-size: 14px
+		text-align: left
+		&.isFullWidth
+			width: 100%
+
+		&.nonSharedTest:after
+			content: '\2605'
+			position: absolute
+			top: 0
+			right: 0
+			border-radius: 0px 3px 0 0
+			+size(18)
+			background-color: $red
+			line-height: 21px
+			text-align: center
+			color: white
+
+		&-innerwrap
+			position: relative
+			display: block
+			+inheritSize
+			padding: 20px
+			box-sizing: border-box
+
+		&-title
+			font-weight: 600
+			font-size: 23px
+			line-height: 1
+			letter-spacing: letter-spacing(20)
+			text-align: center
+			text-transform: uppercase
+			color: $green
+			// color: $contrast-vibrant
+
+		&-subtitle
+			margin-top: 3px
+			font-weight: 500
+			font-size: 15px
+			text-align: center
+			box-sizing: border-box
+			opacity: 0.4
+
+		
+		&-chart
+			margin-top: 20px
+
+
+
+

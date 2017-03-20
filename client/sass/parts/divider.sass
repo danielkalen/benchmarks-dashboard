@@ -1,0 +1,29 @@
+&-divider
+	position: relative
+	height: 2px
+	margin: 60px 0
+	box-sizing: border-box
+
+	&-line
+		position: relative
+		z-index: 1
+		+inheritSize
+		background-color: lighten($divider,4)
+
+	&-text
+		position: absolute
+		z-index: 2
+		+valign(76%)
+		left: 0
+		right: 0
+		+center
+		width: 100px
+		background-color: #f1f1f1
+		font-weight: 500
+		font-size: 15px
+		line-height: 1
+		letter-spacing: letter-spacing(100)
+		text-transform: uppercase
+		text-align: center
+		color: darken($divider-dark,2)
+

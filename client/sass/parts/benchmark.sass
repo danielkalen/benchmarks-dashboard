@@ -1,0 +1,110 @@
+&-item
+	position: relative
+	display: inline-block
+	vertical-align: top
+	width: 32%
+	margin-bottom: 25px
+	background-color: white
+	border-radius: 3px
+	box-shadow: 0px 0px 5px rgba(0,0,0,0.07)
+	font-size: 14px
+	text-align: left
+
+	&.nonSharedTest:after
+		content: '\2605'
+		position: absolute
+		top: 0
+		right: 0
+		border-radius: 0px 3px 0 0
+		+size(18)
+		background-color: $red
+		line-height: 21px
+		text-align: center
+		color: white
+
+	&-innerwrap
+		position: relative
+		display: block
+		+inheritSize
+		padding: 20px
+		box-sizing: border-box
+
+	&-title
+		font-weight: 600
+		font-size: 23px
+		line-height: 1
+		letter-spacing: letter-spacing(20)
+		text-align: center
+		text-transform: uppercase
+		color: $green
+		// color: $contrast-vibrant
+
+	&-subtitle
+		margin-top: 3px
+		font-weight: 500
+		font-size: 15px
+		text-align: center
+		box-sizing: border-box
+		opacity: 0.4
+
+
+	&-button
+		position: relative
+		width: 100%
+		height: 46px
+		margin-top: 25px
+		// background-color: $green
+		background-color: $grey-lighter
+		cursor: pointer
+		+user-select(none)
+		transition: background-color 0.2s
+		&:hover
+			// background-color: darken($green, 8)
+			background-color: $green
+
+		&-text
+			position: absolute
+			+valign(55%)
+			width: 100%
+			font-weight: 500
+			font-size: 15px
+			line-height: 1
+			letter-spacing: letter-spacing(100)
+			text-transform: uppercase
+			text-align: center
+			color: white
+
+
+	
+	&-results
+		margin-top: 20px
+		display: none
+		&.hasResults
+			display: block
+		
+		&-item
+			margin-top: 5px
+			+clearfix
+			font-size: 15px
+
+			&-label
+				float: left
+				font-weight: 600
+				letter-spacing: letter-spacing(60)
+				text-transform: uppercase
+
+			&-value
+				float: right
+				letter-spacing: letter-spacing(20)
+
+
+	
+	&-setup
+		margin-top: 20px
+		border: 1px solid $divider
+		padding: 10px
+		box-sizing: border-box
+		display: none
+		&:empty
+			display: none
+

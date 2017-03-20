@@ -1,0 +1,27 @@
+@import 'parts/_global'
+
+
+.BenchmarkSuite
+	padding: 20px
+	box-sizing: border-box
+	@import 'parts/heading'
+
+	&-list
+		margin-top: 30px
+		text-align: justify
+		text-justify: distribute-all-lines
+		font-size: 0
+		&:after
+			content: ''
+			display: inline-block
+			width: 100%
+
+
+		&-gap
+			display: inline-block
+			width: 32%
+		
+		@import 'parts/benchmark'
+
+
+

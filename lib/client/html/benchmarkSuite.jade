@@ -1,0 +1,35 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		link(rel="stylesheet", href="/css/benchmarkSuite.css")
+		script(type='text/javascript', src='http://localhost:48626/takana.js')
+		script(type='text/javascript').
+			if (typeof takanaClient !== 'undefined')
+				takanaClient.run({host: 'localhost:48626'});
+		
+		title Benchmarks - #{title}
+
+		each dep in deps
+			script(src=dep)
+	
+
+	body
+		.BenchmarkSuite-heading
+			.BenchmarkSuite-heading-title #{title} <span>#{version}</span>
+			.BenchmarkSuite-heading-actions
+				.BenchmarkSuite-heading-actions-storeResults
+					.BenchmarkSuite-heading-actions-storeResults-title Store Results
+					.BenchmarkSuite-heading-actions-storeResults-toggle.enabled#storeResults
+						.BenchmarkSuite-heading-actions-storeResults-toggle-ball
+				
+				a.BenchmarkSuite-heading-actions-backButton(href='/')
+					.BenchmarkSuite-heading-actions-backButton-text Back To Index
+		
+		.BenchmarkSuite
+
+		script(src='/js/polyfills.js')
+		script(src='/js/jquery.js')
+		script(src='/js/humanize.js')
+		script(src='/js/benchmarkSuite.js')
+		script(src='suite.js')
