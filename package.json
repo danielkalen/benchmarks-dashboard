@@ -1,6 +1,6 @@
 {
   "name": "@danielkalen/benchmarks-dashboard",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pretty benchmarks dashboard with heavily-configurable benchmarks suites and comparison charts",
   "main": "index.js",
   "mocha_opts": "-u tdd --compilers coffee:coffee-script/register --slow 3000 --timeout 8000",
