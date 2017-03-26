@@ -57,7 +57,7 @@ do ($=jQuery)->
 
 
 	BenchmarkSuite::teardown = ()-> if @setupFn
-		@teardownFn.call(@testScope, @els.setup)
+		try @teardownFn.call(@testScope, @els.setup)
 
 
 
