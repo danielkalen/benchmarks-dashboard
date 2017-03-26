@@ -56,8 +56,8 @@
     "foreach-cli": "^1.7.1",
     "mocha": "^3.2.0",
     "node-sass": "^4.5.0",
-    "simplywatch": "^2.4.7",
     "simplyimport": "^3.3.1",
+    "simplywatch": "^2.5.0",
     "timeunits": "^1.0.2"
   },
   "dependencies": {
