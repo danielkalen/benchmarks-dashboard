@@ -47,7 +47,7 @@
   },
   "homepage": "https://github.com/danielkalen/benchmarks-dashboard#readme",
   "devDependencies": {
-    "@danielkalen/highcharts": "^5.0.4-dist2",
+    "@danielkalen/highcharts": "^5.0.4-dist3",
     "@danielkalen/polyfills": "^1.1.0",
     "@danielkalen/sass-base": "^1.4.0",
     "badge-gen": "^1.0.1",
