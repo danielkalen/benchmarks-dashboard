@@ -57,7 +57,7 @@
     "mocha": "^3.2.0",
     "node-sass": "^4.5.0",
     "simplyimport": "^3.3.1",
-    "simplywatch": "^2.5.0",
+    "simplywatch": "^3.0.0-l2",
     "timeunits": "^1.0.2"
   },
   "dependencies": {
