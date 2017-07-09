@@ -77,7 +77,7 @@ getCompiledSuiteFile = (options, suite, suiteFiles)->
 	suiteFile = if isCoffee then 'suite.coffee' else 'suite.js'
 	file = path.resolve(suite, suiteFile)
 	
-	SimplyImport({file})
+	SimplyImport({file, debug:true, noPkgConfig:true})
 
 
 migrateDeps = (options, suiteDir, suite, deps)->
