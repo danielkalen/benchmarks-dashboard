@@ -4,7 +4,7 @@
   "description": "Pretty benchmarks dashboard with heavily-configurable benchmarks suites and comparison charts",
   "main": "index.js",
   "mocha_opts": "-u tdd --compilers coffee:coffee-script/register --slow 3000 --timeout 8000",
-  "compileCoffee": "simplyimport -i {{path}} | coffee -cbs > lib/client/js/{{name}}.js",
+  "compileCoffee": "simplyimport bundle {{path}} > lib/client/js/{{name}}.js",
   "compileSass": "fontsDir=client/fonts node-sass --functions $(pwd)/$npm_package_sassFns -x -q --output-style compressed {{path}} --output lib/client/css/",
   "sassFns": "node_modules/@danielkalen/sass-base/compiler-fns.js",
   "bin": {
