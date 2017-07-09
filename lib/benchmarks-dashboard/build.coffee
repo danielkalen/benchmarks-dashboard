@@ -75,10 +75,9 @@ getDepsArray = (options, suite, suiteFiles)->
 getCompiledSuiteFile = (options, suite, suiteFiles)->
 	isCoffee = suiteFiles.includes('suite.coffee')
 	suiteFile = if isCoffee then 'suite.coffee' else 'suite.js'
+	file = path.resolve(suite, suiteFile)
 	
-	fs.readAsync(path.resolve(suite, suiteFile))
-		.then (content)-> SimplyImport(content, null, {isStream:true, isCoffee, context:suite})
-		.then (content)-> if isCoffee then coffee.compile(content, bare:true) else content
+	SimplyImport({file})
 
 
 migrateDeps = (options, suiteDir, suite, deps)->
