@@ -52,6 +52,7 @@
     "@danielkalen/sass-base": "^1.4.0",
     "badge-gen": "^1.0.1",
     "chai": "^3.5.0",
+    "coffee-register": "^0.1.0",
     "coffee-script": "^1.12.4",
     "foreach-cli": "^1.7.1",
     "mocha": "^3.2.0",
