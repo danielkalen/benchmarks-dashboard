@@ -42,7 +42,7 @@
     "@danielkalen/highcharts": "^5.0.4-dist3",
     "@danielkalen/polyfills": "^1.1.0",
     "@danielkalen/sass-base": "^1.4.0",
-    "coffee-register": "^0.1.0",
+    "coffee-register": "^0.1.2",
     "coffee-script": "^1.12.4",
     "foreach-cli": "^1.7.1",
     "node-sass": "^4.5.0",
