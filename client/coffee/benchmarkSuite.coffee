@@ -1,7 +1,7 @@
 @Promise = @PromiseB = import 'bluebird'
 @jQuery = @$ = import 'jquery'
+@humanize = import 'humanize-plus'
 timeunits = import 'timeunits'
-humanize = import 'humanize-plus'
 Promise.config 'longStackTraces':false
 (import '@danielkalen/polyfills')()
 

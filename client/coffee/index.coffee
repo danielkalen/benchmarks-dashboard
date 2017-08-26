@@ -3,6 +3,7 @@
 @SimplyBind = import '@danielkalen/simplybind'
 @Highcharts = import '@danielkalen/highcharts/code/highcharts'
 @HighchartsDrilldown = import '@danielkalen/highcharts/code/modules/drilldown'
+@humanize = import 'humanize-plus'
 UAParser = import 'ua-parser-js'
 Promise.config 'longStackTraces':false
 (import '@danielkalen/polyfills')()
