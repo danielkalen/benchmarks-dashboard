@@ -1,6 +1,9 @@
+@Promise = @PromiseB = import 'bluebird'
+@jQuery = @$ = import 'jquery'
 timeunits = import 'timeunits'
-Promise = PromiseB = import 'bluebird'
+humanize = import 'humanize-plus'
 Promise.config 'longStackTraces':false
+(import '@danielkalen/polyfills')()
 
 do ($=jQuery)->
 	markup = import 'benchmarkSuite/markup'
@@ -138,7 +141,7 @@ do ($=jQuery)->
 					else
 						time = time/@timesToRun
 						perSec = timeunits.minute / time
-						humanize.numberFormat(perSec, 0)+' op/s'
+						humanize.formatNumber(perSec, 0)+' op/s'
 
 
 				if @runCount <= 2

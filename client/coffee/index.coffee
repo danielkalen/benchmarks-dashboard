@@ -1,8 +1,12 @@
-Promise = PromiseB = import 'bluebird'
+@Promise = @PromiseB = import 'bluebird'
+@jQuery = @$ = import 'jquery'
 SimplyBind = import '@danielkalen/simplybind'
-Highcharts = import '@danielkalen/highcharts/dist'
-HighchartsDrilldown = import '@danielkalen/highcharts/dist/highcharts/code/modules/drilldown.js'
+Highcharts = import '@danielkalen/highcharts/code/highcharts'
+HighchartsDrilldown = import '@danielkalen/highcharts/code/modules/drilldown'
 UAParser = import 'ua-parser-js'
+Promise.config 'longStackTraces':false
+(import '@danielkalen/polyfills')()
+
 
 do ($=jQuery)->
 	import './index/helpers'

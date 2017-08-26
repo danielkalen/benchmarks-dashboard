@@ -65,7 +65,7 @@ module.exports = (options, chartData, categories, showDataLabels=false)->
 			color = point.color
 			key = point.key
 			name = point.name
-			pointValue = humanize.numberFormat(point.y, 0) or 0
+			pointValue = humanize.formatNumber(point.y, 0) or 0
 			suffix = if options.valueType is 'ops' then 'op/s' else 'points'
 			value = "<b>#{pointValue} #{suffix}</b>"
 
