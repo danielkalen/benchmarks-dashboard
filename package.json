@@ -1,6 +1,6 @@
 {
   "name": "@danielkalen/benchmarks-dashboard",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Pretty benchmarks dashboard with heavily-configurable benchmarks suites and comparison charts",
   "main": "index.js",
   "compileCoffee": "simplyimport bundle {{path}} > lib/client/js/{{name}}.js",
