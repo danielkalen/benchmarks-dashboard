@@ -1,11 +1,11 @@
-extendDefaultOptions = (options)->
+@extendDefaultOptions = (options)->
 	options = $.extend {}, defaultOptions, options
 	options.itemsMap.length = (1 for k of options.itemsMap).length
 	return options
 
 
 
-parseValue = (value)->
+@parseValue = (value)->
 	if typeof value is 'string'
 		parseFloat value.replace /,/g, ''
 	else
@@ -13,7 +13,7 @@ parseValue = (value)->
 
 
 
-convertValuesToPoints = (chartData)->
+@convertValuesToPoints = (chartData)->
 	maxValue = Math.max.apply(null, chartData.map (plot)-> plot.y)
 	
 	chartData.forEach (plot)->
@@ -25,7 +25,7 @@ convertValuesToPoints = (chartData)->
 
 
 
-sortTests = (tests, chartsOrderMap)->
+@sortTests = (tests, chartsOrderMap)->
 	output = {}
 	Object.keys(tests)
 		.map (name)->
@@ -50,7 +50,7 @@ sortTests = (tests, chartsOrderMap)->
 
 
 
-sortVersions = (versions)->
+@sortVersions = (versions)->
 	output = {}
 	Object.keys(versions)
 		.sort(sortByVersionString)
@@ -61,7 +61,7 @@ sortVersions = (versions)->
 
 
 
-sortByVersionString = (a,b)-> switch
+@sortByVersionString = (a,b)-> switch
 	when parseVersion(a,'major') > parseVersion(b,'major') then 1
 	when parseVersion(a,'major') < parseVersion(b,'major') then -1
 	else switch
@@ -78,7 +78,7 @@ sortByVersionString = (a,b)-> switch
 
 
 
-parseVersion = (versionString, level)->
+@parseVersion = (versionString, level)->
 	versionBreakdown = versionString.split('.')
 
 	switch level
@@ -87,11 +87,11 @@ parseVersion = (versionString, level)->
 		when 'patch' then parseFloat(versionBreakdown[2]) or 0
 		when 'patch-word' then versionBreakdown[2].split(/^\d+/)[1]
 
-parseName = (libraryObject)->
+@parseName = (libraryObject)->
 	return libraryObject.name.replace(libraryObject.name+' ', '')
 
 
-sortChartData = (chartData, itemsMap)->
+@sortChartData = (chartData, itemsMap)->
 	sorted = chartData.slice()
 	sorted.sort (a,b)->
 		if a.library is b.library then sortByVersionString(parseName(a), parseName(b))
@@ -109,7 +109,7 @@ sortChartData = (chartData, itemsMap)->
 
 
 
-createDrilldown = (test)->
+@createDrilldown = (test)->
 	output = []
 	
 	for browser,libraries of test.values
@@ -131,7 +131,7 @@ createDrilldown = (test)->
 
 
 
-combineAllBrowserData = (testValues, currentBrowser)->
+@combineAllBrowserData = (testValues, currentBrowser)->
 	output = {}
 
 	for browser,libraries of testValues
@@ -158,7 +158,7 @@ combineAllBrowserData = (testValues, currentBrowser)->
 
 
 
-createChartDataForTest = (testName, test, options, currentBrowser)->
+@createChartDataForTest = (testName, test, options, currentBrowser)->
 	chartData = []
 	testValues = if options.browserData is 'current' then test.values[currentBrowser] else combineAllBrowserData(test.values, currentBrowser)
 	lastIndex = 0

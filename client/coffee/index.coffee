@@ -1,8 +1,8 @@
 @Promise = @PromiseB = import 'bluebird'
 @jQuery = @$ = import 'jquery'
-SimplyBind = import '@danielkalen/simplybind'
-Highcharts = import '@danielkalen/highcharts/code/highcharts'
-HighchartsDrilldown = import '@danielkalen/highcharts/code/modules/drilldown'
+@SimplyBind = import '@danielkalen/simplybind'
+@Highcharts = import '@danielkalen/highcharts/code/highcharts'
+@HighchartsDrilldown = import '@danielkalen/highcharts/code/modules/drilldown'
 UAParser = import 'ua-parser-js'
 Promise.config 'longStackTraces':false
 (import '@danielkalen/polyfills')()
@@ -14,7 +14,7 @@ do ($=jQuery)->
 	defaultOptions = import './index/defaults'
 	genIndex = import './index/genIndex'
 	genChartSettings = import './index/genChartSettings'
-	chartsContainer$ = $('.BenchmarksDashboard-charts')
+	@chartsContainer$ = $('.BenchmarksDashboard-charts')
 	
 	window.indexCharts = (options={})->
 		options = extendDefaultOptions(options)

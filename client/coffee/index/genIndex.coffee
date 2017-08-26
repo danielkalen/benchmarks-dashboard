@@ -1,3 +1,6 @@
+markup = import './markup'
+genChartSettings = import './genChartSettings'
+
 module.exports = (options)->
 	gapEl$ = chartsContainer$.children().last()
 	chartsContainer$.empty().append(gapEl$)
