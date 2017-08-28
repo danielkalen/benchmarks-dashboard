@@ -2,8 +2,8 @@ path = require 'path'
 
 module.exports =
 	build:
-		'src': path.join('src')
-		'dest': path.join('dest')
+		'src': path.resolve('src')
+		'dest': path.resolve('build')
 		'title': 'Benchmarks Comparison'
 		'subtitle': 'A rich comparison of various algorithmic implemenations'
 
@@ -17,5 +17,5 @@ module.exports =
 		'port': 13947
 
 	serve:
-		'dashboard': path.join('dest')
+		'dashboard': path.resolve('build')
 		'port': 13947

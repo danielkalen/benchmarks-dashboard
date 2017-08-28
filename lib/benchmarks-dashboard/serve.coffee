@@ -4,9 +4,12 @@ compress = require 'compression'
 bodyParser = require 'body-parser'
 uaParser = require 'ua-parser-js'
 extend = require 'smart-extend'
+SimplyImport = require 'simplyimport'
+Sass = Promise.promisifyAll require 'node-sass'
 path = require 'path'
 fs = require 'fs-jetpack'
 defaults = require '../defaults'
+ROOT = path.resolve __dirname,'../../'
 
 
 module.exports = (port, options)->
@@ -45,6 +48,9 @@ module.exports = (port, options)->
 	## ==========================================================================
 	## Middleware
 	## ========================================================================== 
+	app.set 'views', "#{ROOT}/client/pug"
+	app.set 'view engine', 'pug'
+	app.set 'view cache', true
 	app.use compress()
 	app.use express.static(options.dashboard, maxAge: 2592000000)
 	app.use bodyParser.json({limit:'500mb'}) # Enable JSON req parsing
@@ -57,17 +63,31 @@ module.exports = (port, options)->
 	## Router
 	## ========================================================================== 
 	app.get '/', (req, res)->
-		res.sendFile path.resolve(options.dashboard, 'index.html')
+		res.render 'index', require('./build').index(options)
+	
+	# app.get /\/suite(\/.+)?/, (req, res)->
+	# 	res.render 'index'
 
-	app.get '/js/:file', (req, res)->
-		res.sendFile switch req.params.file
-			when 'polyfills.js' then	path.resolve(__dirname,'..','..','node_modules','@danielkalen','polyfills','polyfills.js')
-			when 'jquery.js' then		path.resolve(__dirname,'..','..','node_modules','jquery','dist','jquery.js')
-			when 'humanize.js' then		path.resolve(__dirname,'..','..','node_modules','humanize','humanize.js')
-			else						path.resolve(__dirname,'..','client','js',req.params.file)
+	app.get '/coffee/:file', (req, res)->
+		Promise.resolve("#{ROOT}/client/coffee/#{req.params.file}")
+			.tap (file)-> if not fs.exists(file) then promiseBreak(res.status(404).send('Not Found'))
+			.then (file)-> SimplyImport.build {file}
+			.then (result)-> res.header('Content-Type', 'text/javascript').send(result)
+			.catch promiseBreak.end
+			.catch (err)-> res.status(500).send(err.message)
 
-	app.get '/css/:file', (req, res)->
-		res.sendFile path.resolve(__dirname,'..','client','css',req.params.file)
+	app.get '/sass/:file', (req, res)->
+		Promise.resolve("#{ROOT}/client/sass/#{req.params.file}")
+			.tap (file)-> if not fs.exists(file) then promiseBreak(res.status(404).send('Not Found'))
+			.then (file)-> Sass.renderAsync({
+				file,
+				importer: require('sass-module-importer')()
+				functions: require('@danielkalen/sass-base')
+				outputStyle: 'nested'
+			})
+			.then (result)-> res.header('Content-Type', 'text/css').send(result)
+			.catch promiseBreak.end
+			.catch (err)-> res.status(500).send(err.message)
 
 
 	app.get '/get', (req, res)->

@@ -39,23 +39,19 @@
   },
   "homepage": "https://github.com/danielkalen/benchmarks-dashboard#readme",
   "devDependencies": {
+    "foreach-cli": "^1.7.1"
+  },
+  "dependencies": {
     "@danielkalen/highcharts": "^5.0.4-dist4",
     "@danielkalen/polyfills": "^2.0.3",
     "@danielkalen/sass-base": "^1.4.0",
-    "coffee-register": "^0.1.2",
-    "coffee-script": "^1.12.4",
-    "foreach-cli": "^1.7.1",
-    "node-sass": "^4.5.0",
-    "simplyimport": "^4.0.0-s32",
-    "simplywatch": "^3.0.0-l2",
-    "timeunits": "^1.0.2"
-  },
-  "dependencies": {
     "@danielkalen/simplybind": "^1.15.8",
     "array-includes": "^3.0.2",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "chalk": "^1.1.3",
+    "coffee-register": "^0.1.2",
+    "coffee-script": "^1.12.4",
     "commander": "^2.9.0",
     "compression": "^1.6.2",
     "express": "^4.15.2",
@@ -64,9 +60,16 @@
     "jquery": "^3.2.0",
     "moment": "^2.18.0",
     "moment-duration-format": "^1.3.0",
+    "node-sass": "^4.5.0",
+    "promise-break": "^0.1.2",
     "pug": "^2.0.0-rc.3",
+    "sass-module-importer": "^1.4.0",
     "selenium-webdriver": "^3.3.0",
+    "semver-compare": "^1.0.0",
+    "simplyimport": "^4.0.0-s32",
+    "simplywatch": "^3.0.0-l2",
     "smart-extend": "^1.3.2",
+    "timeunits": "^1.0.2",
     "ua-parser-js": "^0.7.12"
   }
 }
