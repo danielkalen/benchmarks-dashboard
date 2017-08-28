@@ -3,8 +3,9 @@ module.exports =
 	'browserData': 'current'
 	'valueType': 'ops'
 	'chartType': 'column'
-	'chartsOrderMap': []
-	'itemsMap': {}
+	'order': []
+	'ignores': []
+	'meta': {}
 
 
 Highcharts.setOptions

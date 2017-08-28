@@ -1,12 +1,6 @@
 path = require 'path'
 
 module.exports =
-	build:
-		'src': path.resolve('src')
-		'dest': path.resolve('build')
-		'title': 'Benchmarks Comparison'
-		'subtitle': 'A rich comparison of various algorithmic implemenations'
-
 	run:
 		'browser': 'chrome'
 		'runTimes': 10
@@ -17,5 +11,7 @@ module.exports =
 		'port': 13947
 
 	serve:
-		'dashboard': path.resolve('build')
+		'dir': path.resolve('benchmarks')
 		'port': 13947
+		'title': 'Benchmarks Comparison'
+		'subtitle': 'A rich comparison of various algorithmic implemenations'

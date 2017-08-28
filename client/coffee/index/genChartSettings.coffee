@@ -1,3 +1,5 @@
+humanize = import 'humanize-plus'
+
 module.exports = (options, chartData, categories, showDataLabels=false)->
 	'series': [{data:chartData}]
 	'chart': 'type': options.chartType
@@ -32,24 +34,6 @@ module.exports = (options, chartData, categories, showDataLabels=false)->
 				'enabled': false
 				'state': 'hover': 'enabled': false
 			'dataLabels': false
-				# 'enabled': if options.chartType is 'column' then showDataLabels else false
-				# 'inside': true
-				# 'rotation': -90
-				# 'color': 'white'
-				# 'align': 'left'
-				# 'verticalAlign': 'bottom'
-				# 'y': -10
-				# 'crop': false
-				# 'format': '{point.name}'
-				# 'useHTML': true
-				# 'style':
-				# 	'color': 'contrast'
-				# 	'fontWeight': '700'
-				# 	'fontFamily': 'proxima'
-				# 	'fontSize': '14px'
-				# 	'letterSpacing': '0.8px'
-				# 	'textShadow': '0px 0px 1px rgba(0,0,0,0.6)'
-				# 	# 'width': '10%'
 
 
 	'drilldown':

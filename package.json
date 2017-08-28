@@ -47,6 +47,7 @@
     "@danielkalen/sass-base": "^1.4.0",
     "@danielkalen/simplybind": "^1.15.8",
     "array-includes": "^3.0.2",
+    "axios": "^0.16.2",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.1",
     "chalk": "^1.1.3",
@@ -54,22 +55,51 @@
     "coffee-script": "^1.12.4",
     "commander": "^2.9.0",
     "compression": "^1.6.2",
+    "d3-array": "^1.2.0",
+    "d3-collection": "^1.0.4",
+    "d3-color": "^1.0.3",
     "express": "^4.15.2",
     "fs-jetpack": "^0.13.1",
     "humanize-plus": "^1.8.2",
     "jquery": "^3.2.0",
+    "mime": "^1.4.0",
     "moment": "^2.18.0",
     "moment-duration-format": "^1.3.0",
     "node-sass": "^4.5.0",
     "promise-break": "^0.1.2",
     "pug": "^2.0.0-rc.3",
-    "sass-module-importer": "^1.4.0",
+    "quickdom": "^1.0.72",
+    "quickfield": "^1.0.63",
+    "sass-module-importer": "github:danielkalen/sass-module-importer",
     "selenium-webdriver": "^3.3.0",
     "semver-compare": "^1.0.0",
     "simplyimport": "^4.0.0-s32",
     "simplywatch": "^3.0.0-l2",
     "smart-extend": "^1.3.2",
+    "sugar": "^2.0.4",
     "timeunits": "^1.0.2",
     "ua-parser-js": "^0.7.12"
+  },
+  "simplyimport": {
+    "specific": {
+      "promise-break": {
+        "transform": [
+          "babelify",
+          {
+            "presets": "babel-preset-es2015-script",
+            "sourceMaps": false
+          }
+        ]
+      },
+      "punycode": {
+        "transform": [
+          "babelify",
+          {
+            "presets": "babel-preset-es2015-script",
+            "sourceMaps": false
+          }
+        ]
+      }
+    }
   }
 }

@@ -7,21 +7,17 @@ html
 
 	
 
-	body
-		.BenchmarksDashboard-heading
-			.BenchmarksDashboard-heading-title=options.title
-			.BenchmarksDashboard-heading-subtitle=options.subtitle
-		
-		.BenchmarksDashboard-libraries
-			each subject in libraries
-				.BenchmarksDashboard-libraries-item
-					.BenchmarksDashboard-libraries-item-innerwrap
-						.BenchmarksDashboard-libraries-item-title
-							span.BenchmarksDashboard-libraries-item-title-name=subject.title
-							span.BenchmarksDashboard-libraries-item-title-version=' '+subject.version
+	body		
+		.BenchmarksDashboard-suites
+			each subject in suites
+				.BenchmarksDashboard-suites-item
+					.BenchmarksDashboard-suites-item-innerwrap
+						.BenchmarksDashboard-suites-item-title
+							span.BenchmarksDashboard-suites-item-title-name=subject.title
+							span.BenchmarksDashboard-suites-item-title-version=' '+subject.version
 						
-						a.BenchmarksDashboard-libraries-item-button(href=subject.location)
-							.BenchmarksDashboard-libraries-item-button-text Open Benchmarks Suite
+						a.BenchmarksDashboard-suites-item-button(href='/suite/'+subject.suite)
+							.BenchmarksDashboard-suites-item-button-text Open Benchmarks Suite
 
 		
 		.BenchmarksDashboard-divider
@@ -35,70 +31,17 @@ html
 			.BenchmarksDashboard-settingsBar-innerwrap
 				.BenchmarksDashboard-settingsBar-title Settings
 				.BenchmarksDashboard-settingsBar-list#settingsBar
-					
-					-
-						var settings = [
-							{
-								name: 'valueType',
-								label: 'Value Type',
-								options: [
-									{
-										name: 'ops',
-										label: 'Op/s'
-									},
-									{
-										name: 'points',
-										label: 'Points'
-									}
-								]
-							},
-							{
-								name: 'chartType',
-								label: 'Chart Type',
-								options: [
-									{
-										name: 'bar',
-										label: 'Bar'
-									},
-									{
-										name: 'column',
-										label: 'Column'
-									}
-								]
-							},
-							{
-								name: 'browserData',
-								label: 'Browser Data',
-								options: [
-									{
-										name: 'current',
-										label: 'Only Current'
-									},
-									{
-										name: 'all',
-										label: 'All Browsers'
-									}
-								]
-							}
-						]
-
-					each setting in settings
-						.BenchmarksDashboard-settingsBar-list-item(id=setting.name)
-							.BenchmarksDashboard-settingsBar-list-item-label=setting.label
-							
-							.BenchmarksDashboard-settingsBar-list-item-options
-								each option in setting.options
-									.BenchmarksDashboard-settingsBar-list-item-options-item(class='{{state}}', data-name=option.name)=option.label
 
 
 
-
+		script window.config = !{JSON.stringify(config)};
+		script window.dashboardOptions = !{JSON.stringify({title:options.title, subtitle:options.subtitle})};
+		script window.targetSuites = !{JSON.stringify(suites)};
 		script(src='/coffee/index.coffee')
-		script window.ignoreList = !{JSON.stringify(config.ignores)};
-		script.
-			indexCharts({
-				chartsOrderMap: !{JSON.stringify(config.order)},
-				itemsMap: !{JSON.stringify(config.meta)},				
-			})
+		//- script.
+		//- 	indexCharts({
+		//- 		chartsOrderMap: !{JSON.stringify(config.order)},
+		//- 		itemsMap: !{JSON.stringify(config.meta)},				
+		//- 	})
 
 

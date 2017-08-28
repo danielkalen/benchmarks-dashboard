@@ -1,11 +1,14 @@
-@extendDefaultOptions = (options)->
-	options = $.extend {}, defaultOptions, options
-	options.itemsMap.length = (1 for k of options.itemsMap).length
+extend = import 'smart-extend'
+defaults = import './defaults'
+
+export extendDefaultOptions = (options)->
+	options = extend.clone defaults, options
+	options.meta.length = (1 for k of options.meta).length
 	return options
 
 
 
-@parseValue = (value)->
+export parseValue = (value)->
 	if typeof value is 'string'
 		parseFloat value.replace /,/g, ''
 	else
@@ -13,7 +16,7 @@
 
 
 
-@convertValuesToPoints = (chartData)->
+export convertValuesToPoints = (chartData)->
 	maxValue = Math.max.apply(null, chartData.map (plot)-> plot.y)
 	
 	chartData.forEach (plot)->
@@ -25,7 +28,7 @@
 
 
 
-@sortTests = (tests, chartsOrderMap)->
+export sortTests = (tests, chartsOrderMap)->
 	output = {}
 	Object.keys(tests)
 		.map (name)->
@@ -50,7 +53,7 @@
 
 
 
-@sortVersions = (versions)->
+export sortVersions = (versions)->
 	output = {}
 	Object.keys(versions)
 		.sort(sortByVersionString)
@@ -61,7 +64,7 @@
 
 
 
-@sortByVersionString = (a,b)-> switch
+export sortByVersionString = (a,b)-> switch
 	when parseVersion(a,'major') > parseVersion(b,'major') then 1
 	when parseVersion(a,'major') < parseVersion(b,'major') then -1
 	else switch
@@ -78,7 +81,7 @@
 
 
 
-@parseVersion = (versionString, level)->
+export parseVersion = (versionString, level)->
 	versionBreakdown = versionString.split('.')
 
 	switch level
@@ -87,11 +90,11 @@
 		when 'patch' then parseFloat(versionBreakdown[2]) or 0
 		when 'patch-word' then versionBreakdown[2].split(/^\d+/)[1]
 
-@parseName = (libraryObject)->
+export parseName = (libraryObject)->
 	return libraryObject.name.replace(libraryObject.name+' ', '')
 
 
-@sortChartData = (chartData, itemsMap)->
+export sortChartData = (chartData, itemsMap)->
 	sorted = chartData.slice()
 	sorted.sort (a,b)->
 		if a.library is b.library then sortByVersionString(parseName(a), parseName(b))
@@ -109,7 +112,7 @@
 
 
 
-@createDrilldown = (test)->
+export createDrilldown = (test)->
 	output = []
 	
 	for browser,libraries of test.values
@@ -131,21 +134,20 @@
 
 
 
-@combineAllBrowserData = (testValues, currentBrowser)->
+export combineAllBrowserData = (testValues, currentBrowser)->
 	output = {}
+	browsers = Object.keys(testValues)
 
 	for browser,libraries of testValues
 		
-		for library,versions of libraries
-			continue unless testValues[currentBrowser][library]
+		for library,versions of libraries #when testValues[currentBrowser]?[library]
 			output[library] ?= {}
 
-			for version,value of versions
-				continue unless testValues[currentBrowser][library][version]
+			for version,value of versions #when testValues[currentBrowser][library]?[version]
+				continue if not browsers.every((browser)-> testValues[browser][library]?[version])
 				output[library][version] ?= {value:0, count:0}
 				output[library][version].value += parseValue(value)
 				output[library][version].count += 1
-
 
 
 	for library,versions of output
@@ -158,31 +160,34 @@
 
 
 
-@createChartDataForTest = (testName, test, options, currentBrowser)->
+export createChartDataForTest = (testName, test, options, currentBrowser)->
 	chartData = []
 	testValues = if options.browserData is 'current' then test.values[currentBrowser] else combineAllBrowserData(test.values, currentBrowser)
 	lastIndex = 0
 
 	for library,versions of testValues
 		for version,value of sortVersions(versions)
-			continue if ignoreList.includes "#{library}@#{version}"
+			continue if options.ignores.includes "#{library}export #{version}"
 			
 			value = parseValue(value)
 			name = library+' '+version
-			if options.itemsMap[library]
+			if options.meta[library]
 				lastIndex++
-				color = options.itemsMap[library].color
+				color = options.meta[library].color
 			else
 				index = ++lastIndex
 				color = options.colors[index] or options.colors[index % options.colors.length]
-				options.itemsMap[library] = {index, color}
+				options.meta[library] = {index, color}
 			
 			chartData.push {'x':null, 'y':value, 'drilldown':name, color, name, library}
 
-	chartData = sortChartData(chartData, options.itemsMap)
+	chartData = sortChartData(chartData, options.meta)
 	chartData = convertValuesToPoints(chartData) if options.valueType is 'points'
 	chartData.drilldown = if options.browserData is 'current' then undefined else createDrilldown(test)
 	chartData.nonSharedTest = test.nonSharedTest
+	chartData.title = testName
+	chartData.subtitle = test.desc
+	chartData.nonShared = test.nonSharedTest
 	return chartData
 
 
