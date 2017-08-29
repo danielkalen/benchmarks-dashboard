@@ -98,7 +98,7 @@ export suite = DOM.template(
 			['div'
 				ref: 'title'
 				style:
-					marginTop: 25
+					marginTop: 17
 					fontSize: 16
 					fontWeight: 500
 			]
@@ -164,13 +164,15 @@ export divider = DOM.template(
 				top: '50%'
 				left: 0
 				right: 0
+				width: 100
 				margin: '0 auto'
 				backgroundColor: '#f1f1f1'
-				trasnfrom: 'translateY(74%)'
+				transform: 'translateY(-56%)'
 				color: '#bababa'
 				textAlign: 'center'
 				letterSpacing: "#{40/1e3}em"
 				fontSize: 15
+				fontWeight: 600
 				lineHeight: 1
 				textTransform: 'uppercase'
 		, 'Results']
