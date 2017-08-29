@@ -17,16 +17,19 @@ ChartRenderer = import './chartRenderer'
 SettingsBar = import './settingsBar'
 genChartSettings = import './genChartSettings'
 
-module.exports = (options, dashboardOptions, targetSuites)->
+module.exports = (options, dashboardOptions, suites)->
 	options = helpers.extendDefaultOptions(options or {})
 	# window.opts = options
-	template.heading.spawn(data:dashboardOptions).prependTo(document.body)
+	template.heading.spawn(data:dashboardOptions).appendTo(document.body)
+	template.list.spawn(data:{suites}).appendTo(document.body)
+	template.divider.spawn().appendTo(document.body)
+	charts = template.charts.spawn().appendTo(document.body)
 	
 	Promise.resolve()
 		.then ()-> axios.get('/get', params:{UA:navigator.userAgent})
 		.get 'data'
 		.then (data)->
-			chartRenderer = new ChartRenderer(options, data)
+			chartRenderer = new ChartRenderer(options, data, charts)
 			settingsBar = new SettingsBar(options, chartRenderer)
 	
 

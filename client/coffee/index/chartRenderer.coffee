@@ -1,16 +1,17 @@
 markup = import './markup'
+template = import './template'
 helpers = import './helpers'
 genChartSettings = import './genChartSettings'
 
 class ChartRenderer
-	constructor: (@options, @data)->
+	constructor: (@options, @data, @container)->
 		@chartsContainer = $('.BenchmarksDashboard-charts')
 		@gapEl = @chartsContainer.children().last()
 		@reset()
 		
 
 	reset: ()->
-		@chartsContainer.empty().append(@gapEl)
+		@container.empty().append(template.chartGap.spawn()).childf
 		@render()
 
 
@@ -62,7 +63,7 @@ class ChartRenderer
 				.replace '{{fullWidth}}', ''
 				.replace '{{nonSharedTest}}', if chartData.nonShared then 'nonSharedTest' else ''
 			
-			el$ = $(elMarkup).insertBefore @chartsContainer.children().last()
+			el$ = $(elMarkup).insertBefore @container.child.gap.raw
 			el$.after ' '
 				.find('.__chart').highcharts genChartSettings(@options, chartData, categories)
 		
@@ -76,7 +77,7 @@ class ChartRenderer
 			.replace '{{nonSharedTest}}', ''
 					
 		
-		el$ = $(elMarkup).prependTo @chartsContainer
+		el$ = $(elMarkup).prependTo @container.raw
 		el$.after ' '
 		   .find('.__chart').highcharts genChartSettings(@options, allCharts, categories, true)
 

@@ -2,7 +2,6 @@ QuickField = import './quickfield'
 
 class SettingsBar
 	constructor: (@options, @chartRenderer)->
-		@chartsContainer = DOM.query('.BenchmarksDashboard-charts')
 		@barEl = DOM.query('.BenchmarksDashboard-settingsBar')
 		@listEl = DOM.query('.BenchmarksDashboard-settingsBar-list')
 		@passedInitalLoad = false
@@ -26,7 +25,7 @@ class SettingsBar
 		
 		Promise.delay(300).then ()=>
 			SimplyBind(()=>
-				@chartsContainer.style {paddingBottom: @barEl.height}
+				@chartRenderer.container.style {paddingBottom: @barEl.height}
 			).updateOn('event:resize').of(window)
 
 			@passedInitalLoad = true
