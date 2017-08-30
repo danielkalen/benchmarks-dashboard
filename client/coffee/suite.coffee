@@ -3,7 +3,7 @@ import '../../lib/sugar'
 @jQuery = @$ = import 'jquery/dist/jquery.slim'
 @DOM = import 'quickdom'
 @SimplyBind = import '@danielkalen/simplybind'
-Promise.config 'longStackTraces':false
+Promise.config 'longStackTraces':false, warnings:false
 (import '@danielkalen/polyfills')()
 
 

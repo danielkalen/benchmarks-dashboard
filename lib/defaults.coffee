@@ -1,14 +1,16 @@
 path = require 'path'
+timeunits = require 'timeunits'
 
 module.exports =
 	run:
-		'browser': 'chrome'
-		'runTimes': 10
-		'runDelay': 500
-		'dontClose': false
-		'direction': 'asc'
+		'browser': 'electron'
+		'timeout': timeunits.minute*30
+		'desc': false
+		'keepOpen': false
 		'host': 'localhost'
 		'port': 13947
+		'protocol': 'http'
+		'suite': null
 
 	serve:
 		'dir': path.resolve('benchmarks')

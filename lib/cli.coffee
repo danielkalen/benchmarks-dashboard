@@ -3,6 +3,7 @@ program = require 'commander'
 chalk = require 'chalk'
 extend = require 'smart-extend'
 specifiedCommand = false
+availbleBrowsers = require('./run/available').join(', ')
 defaults = extend.clone.deep.transform(
 	dir: (dir)-> "./#{dir}"
 )(require './defaults')
@@ -14,13 +15,13 @@ program
 program
 	.command 'run [suiteName]'
 	.description "Run an automated execution of the suites matching the 'suiteName' regular expression (will run all if empty)"
-	.option '-b --browser <browser>', "Browser to execute the benchmark suites in [default: #{chalk.dim defaults.run.browser}] [availble: #{chalk.dim 'chrome, canary, firefox, safari'}]"
-	.option '-t --runTimes <count>', "Number of times to run each benchmark in each benchmark suite [default: #{chalk.dim defaults.run.runTimes}]"
-	.option '-d --runDelay <ms>', "Amount of time in ms to wait between each benchmark execution [default: #{chalk.dim defaults.run.runDelay}]"
-	.option '-s --direction <asc|desc>', "Sort direction order to execute the benchmarks in [default: #{chalk.dim defaults.run.direction}]"
-	.option '-w --dontClose', "Avoid closing the browser after completing the automated run [default: #{chalk.dim defaults.run.dontClose}]"
-	.option '-H --host <hostname>', "Hostname of the Benchmarks Dashboard server [default: #{chalk.dim defaults.run.host}]"
-	.option '-P --port <port>', "Port of the Benchmarks Dashboard server [default: #{chalk.dim defaults.run.port}]"
+	.option '-b --browser <browser>', "Browser to execute the benchmark suites in [default: #{chalk.dim defaults.run.browser}] [available: #{chalk.dim availbleBrowsers}]"
+	.option '-t --timeout <ms>', "Suite execution timeout [default: #{chalk.dim defaults.run.timeout}]"
+	.option '-d --desc', "Run suites in descending/opposite order [default: #{chalk.dim defaults.run.desc}]"
+	.option '-k --keepOpen', "Avoid closing the browser after completing the automated run [default: #{chalk.dim defaults.run.keepOpen}]"
+	.option '-h --host <hostname>', "Hostname of the Benchmarks Dashboard server [default: #{chalk.dim defaults.run.host}]"
+	.option '-p --port <port>', "Port of the Benchmarks Dashboard server [default: #{chalk.dim defaults.run.port}]"
+	.option '-P --protocol <protocol>', "Protocol of the Benchmarks Dashboard server [default: #{chalk.dim defaults.run.protocol}]"
 	.action (suiteName, options)-> specifiedCommand = require('./').run(suiteName, options)
 
 program

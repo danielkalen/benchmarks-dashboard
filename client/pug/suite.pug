@@ -3,7 +3,7 @@ html
 	head
 		meta(charset='utf-8')
 		link(rel="stylesheet", href="/sass/base.sass")
-		title Benchmarks - #{suite.title}
+		title Benchmarks - #{suite.title} #{suite.version}
 
 		each dep in suite.deps
 			script(src=dep)

@@ -2,8 +2,10 @@ Promise = require 'bluebird'
 Path = require 'path'
 fs = require 'fs-jetpack'
 uaParser = require 'ua-parser-js'
+semverCompare = require 'semver-compare'
 
 exports.resolveUA = (uaString='')->
+	return uaString if uaString is 'Electron'
 	UA = uaParser(uaString).browser
 	UA = "#{UA.name} #{UA.major or UA.version}"
 
@@ -16,18 +18,16 @@ exports.getConfig = (options)->
 	return config
 
 
-
-
-exports.migrateDeps = (options, suiteDir, suite, deps)->
-	depsDir = Path.join options.dest, suiteDir, 'deps'
-	fs.dirAsync(depsDir).then ()->
-		Promise.map deps, (depSrc)->
-			depSrc = Path.join suite, depSrc
-			depDest = Path.join depsDir, Path.basename(depSrc)
-
-			fs.copyAsync(depSrc, depDest, overwrite:true)
-				.then ()-> Path.join 'deps', Path.basename(depSrc)
-
+exports.sortSuites = (suites, desc)->
+	Object.values(suites.groupBy('name'))
+		.sortBy '[0].name', desc
+		.map (group)->
+			group.sort (a,b)->
+				if desc
+					semverCompare(b.version, a.version)
+				else
+					semverCompare(a.version, b.version)
+		.flatten()
 
 
 exports.resolveSuite = ((suite)->
@@ -62,8 +62,8 @@ exports.resolveSuiteDeps = ((suite)->
 
 SimplyImport = require 'simplyimport'
 exports.compileCoffee = ((file)->
-	SimplyImport {file}
-).memoize()
+	SimplyImport {file, debug:true, sourceMap:false}
+)#.memoize()
 
 
 Sass = Promise.promisifyAll require 'node-sass'

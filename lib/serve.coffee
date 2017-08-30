@@ -55,9 +55,10 @@ module.exports = (port, options)->
 			.then (result)-> res.header('Content-Type', 'text/javascript').send(result)
 			.catch next
 
-	app.get '/dep/:suite/:depIndex', (req, res, next)->
+	app.get '/dep/:suite/:depIndex', (req, res, next)->		
 		Promise.resolve(req.params.suite)
 			.then (suite)-> helpers.resolveSuite(Path.resolve(options.dir, suite))
+			.tap ()-> promiseBreak(next()) if isNaN(req.params.depIndex)
 			.then (suite)->
 				targetDep = suite.deps[req.params.depIndex]
 				targetDep = Path.resolve(suite.path,targetDep)
@@ -102,7 +103,6 @@ module.exports = (port, options)->
 
 
 	app.use (err, req, res, next)->
-		console.error(err.stack) unless res.headersSent
 		res.status(500).send("Error: #{err.message}") unless res.headersSent
 		next(err)
 

@@ -18,7 +18,12 @@ class Test
 		@settings.task = @settings.task.bind(@context)
 		@settings.teardown ?= ()=> @el.child.sandbox.empty()
 		@benchmark = new Benchmark.Suite('suite', @settings)
-			.add 'test', (done)=> @settings.task(done)
+		if not @settings.async
+			@benchmark.add 'test', ()=> @settings.task()
+		else
+			@benchmark.add 'test', (deferred)=>
+				@settings.task((result)-> deferred.resolve(result))
+			, defer:true
 
 		@_attachBindings()
 		@suite.add(@)
@@ -73,7 +78,20 @@ class Test
 
 
 
-throwError = (err)-> setTimeout ()-> throw err
+throwError = (err)->
+	if err not instanceof Error
+		err = new Error switch
+			when err is undefined or err is null
+				'Unknown Error'
+			when typeof err is 'string'
+				err
+			when typeof err is 'object' and err.type is 'error'
+				"Task Run Error: #{err.result or 'error during runtime'}"
+			else
+				''+err
+	
+	setTimeout ()-> throw err
+	return err
 
 
 module.exports = Test

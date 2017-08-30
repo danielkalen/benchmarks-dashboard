@@ -5,17 +5,14 @@ Path = require 'path'
 pug = require 'pug'
 coffee = require 'coffee-script'
 extend = require 'smart-extend'
-semverCompare = require 'semver-compare'
 chalk = require 'chalk'
 helpers = require './helpers'
 defaults = require './defaults'
 ROOT = Path.resolve __dirname,'../'
-INDEX_SOURCE_PATH = Path.resolve __dirname,'..','client','html','index.jade'
-RUNNER_SOURCE_PATH = Path.resolve __dirname,'..','client','html','benchmarkSuite.jade'
 PKG_FOLDERS = ['node_modules', 'bower_components']
 
-buildIndex = (options, fromCLI)->
-	options = extend.clone(defaults.build, options)
+buildIndex = (options)->
+	options = extend.clone(defaults.serve, options)
 	config = helpers.getConfig(options)
 	libraries = []
 
@@ -26,8 +23,8 @@ buildIndex = (options, fromCLI)->
 			not config.ignores.includes(file) and
 			not PKG_FOLDERS.some((pkg)-> file is pkg)
 		
-		.map (suite)-> helpers.resolveSuite(Path.resolve(options.dir, suite))					
-		.then (files)-> Object.values(files.groupBy('name')).map((group)-> group.sort (a,b)-> semverCompare(a.version, b.version)).flatten()
+		.map (suite)-> helpers.resolveSuite(Path.resolve(options.dir, suite))
+		.then (suites)-> helpers.sortSuites(suites)
 		.then (suites)-> {options, suites, config, pretty:true}
 
 
