@@ -7,7 +7,7 @@ module.exports =
 	testFn: noop
 	teardownFn: noop
 	async: false
-	delay: null
+	delay: 10
 	minTime: 1
 	maxTime: 1
 	minSamples: 0

@@ -5,12 +5,12 @@ QuickField = import 'quickfield'
 module.exports = QuickField.config(
 	global:
 		fontFamily: 'gotham'
+		width: 'auto'
 	
 	choice:
 		spacing: 0
 		perGroup: 2
 		fontSize: 11
-		width: 'auto'
 
 
 ,

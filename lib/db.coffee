@@ -22,12 +22,12 @@ module.exports = class DB
 	add: ({suite, test, result, userAgent})->
 		browser = helpers.resolveUA(userAgent)
 		if not targetTest = @results.find(test)
-			@results.push targetTest = extend.clone.concat.deep(schema.test, test)
+			@results.push targetTest = extend.clone.deep(schema.test, test)
 
 		if not targetResult = targetTest.results.find({suite, browser})
-			targetTest.results.push targetResult = extend.deep(schema.result)
+			targetTest.results.push targetResult = extend.clone.deep(schema.result)
 		
-		extend targetResult, {result}, {suite, browser}
+		extend targetResult, result, {suite, browser}
 		@save()
 
 
@@ -42,6 +42,8 @@ schema.test =
 schema.result = 
 	suite: ''
 	browser: ''
+	ops: 0
+	samples: 0
 	time: 0
 	margin: 1
 

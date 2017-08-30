@@ -36,7 +36,7 @@ export list = DOM.template(
 		style:
 			boxSizing: 'border-box'
 			marginTop: 40
-			padding: '0 20px'
+			padding: '0 20px 80px'
 		
 		computers: suites: (suites)->
 			Object.forEach suites.groupBy('name'), (versions)=>
