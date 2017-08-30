@@ -1,5 +1,6 @@
 QuickField = import 'quickfield'
 	.register 'choice', import 'quickfield/field/choice'
+	.register 'toggle', import 'quickfield/field/toggle'
 
 module.exports = QuickField.config(
 	global:
@@ -13,24 +14,36 @@ module.exports = QuickField.config(
 
 
 ,
-	choice:
+	global:
 		default:
 			options:
 				style: marginLeft: 25
 				events: 'inserted': ()-> @style('marginLeft',0) if not @prev
 			
-			children:
-				'label': options: style:
-					$showLabel:
-						verticalAlign: 'middle'
-						display: 'inline-block'
-						marginRight: 7
-						marginBottom: 0
-						fontSize: 14
-
-				'innerwrap': options: style:
+	toggle:
+		default: children:
+			'label': options: style:
+				$showLabel:
 					verticalAlign: 'middle'
 					display: 'inline-block'
+					marginRight: 7
+					marginBottom: 0
+					fontSize: 14
+
+
+	choice:
+		default: children:
+			'label': options: style:
+				$showLabel:
+					verticalAlign: 'middle'
+					display: 'inline-block'
+					marginRight: 7
+					marginBottom: 0
+					fontSize: 14
+
+			'innerwrap': options: style:
+				verticalAlign: 'middle'
+				display: 'inline-block'
 
 		'choice':
 			options: style:
@@ -44,3 +57,6 @@ module.exports = QuickField.config(
 					fontSize: 11
 					padding: '9px 0 6px'
 )
+
+
+

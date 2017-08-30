@@ -2,26 +2,16 @@ doctype html
 html
 	head
 		meta(charset='utf-8')
-		link(rel="stylesheet", href="/sass/benchmarkSuite.sass")
+		link(rel="stylesheet", href="/sass/base.sass")
 		title Benchmarks - #{title}
 
-		each dep in deps
+		each dep in suite.deps
 			script(src=dep)
 	
 
 	body
-		.BenchmarkSuite-heading
-			.BenchmarkSuite-heading-title #{title} <span>#{version}</span>
-			.BenchmarkSuite-heading-actions
-				.BenchmarkSuite-heading-actions-storeResults
-					.BenchmarkSuite-heading-actions-storeResults-title Store Results
-					.BenchmarkSuite-heading-actions-storeResults-toggle.enabled#storeResults
-						.BenchmarkSuite-heading-actions-storeResults-toggle-ball
-				
-				a.BenchmarkSuite-heading-actions-backButton(href='/')
-					.BenchmarkSuite-heading-actions-backButton-text Back To Index
-		
-		.BenchmarkSuite
-
+		script window.config = !{JSON.stringify(suite)};
 		script(src='/coffee/suite.coffee')
-		script(src=`/dep/${fullname}/suite.js`)
+		script(src=`/dep/${suite.fullname}/suite.js`)
+
+

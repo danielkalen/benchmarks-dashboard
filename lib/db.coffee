@@ -1,12 +1,13 @@
 Path = require 'path'
 Promise = require 'bluebird'
+extend = require 'smart-extend'
 fs = require 'fs-jetpack'
 helpers = require './helpers'
 
 
 module.exports = class DB
 	constructor: (@options)->
-		@results = {}
+		@results = []
 		@STORE_PATH = Path.resolve(@options.dir, 'results.json')
 		
 		Promise.bind(@)
@@ -17,15 +18,52 @@ module.exports = class DB
 	save: ()->
 		fs.writeAsync(@STORE_PATH, @results)
 	
-	add: ({library, version, testName, testDesc, result, UA, nonSharedTest})->
-		UA = helpers.resolveUA(UA)
-		@results ?= {}
-		@results[testName] ?= 'name':testName,'desc':testDesc, 'values':{}
-		@results[testName].nonSharedTest = nonSharedTest or false
-		@results[testName].values[UA] ?= {}
-		@results[testName].values[UA][library] ?= {}
-		@results[testName].values[UA][library][version] = result
+
+	add: ({suite, test, result, userAgent})->
+		browser = helpers.resolveUA(userAgent)
+		if not targetTest = @results.find(test)
+			@results.push targetTest = extend.clone.concat.deep(schema.test, test)
+
+		if not targetResult = targetTest.results.find({suite, browser})
+			targetTest.results.push targetResult = extend.deep(schema.result)
+		
+		extend targetResult, {result}, {suite, browser}
 		@save()
+
+
+schema = {}
+
+schema.test =
+	title: ''
+	subtitle: ''
+	nonShared: false
+	results: []
+
+schema.result = 
+	suite: ''
+	browser: ''
+	time: 0
+	margin: 1
+
+
+# [
+# 	{
+# 		title: 'abc'
+# 		subtitle: 'ABC 123!'
+# 		results: [
+# 			{
+# 				browser: 'Chrome 53'
+# 				time: 123
+# 				margin: 12
+# 			}
+# 		]
+# 	}
+# ]
+
+
+
+
+
 
 
 

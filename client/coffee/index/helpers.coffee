@@ -184,10 +184,10 @@ export createChartDataForTest = (testName, test, options, currentBrowser)->
 	chartData = sortChartData(chartData, options.meta)
 	chartData = convertValuesToPoints(chartData) if options.valueType is 'points'
 	chartData.drilldown = if options.browserData is 'current' then undefined else createDrilldown(test)
-	chartData.nonSharedTest = test.nonSharedTest
+	chartData.nonShared = test.nonShared
 	chartData.title = testName
 	chartData.subtitle = test.desc
-	chartData.nonShared = test.nonSharedTest
+	chartData.nonShared = test.nonShared
 	return chartData
 
 

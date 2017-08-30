@@ -1,6 +1,6 @@
 module.exports =	
 	item: "
-		<div class='BenchmarksDashboard-charts-item {{nonSharedTest}} {{fullWidth}}'>
+		<div class='BenchmarksDashboard-charts-item {{nonShared}} {{fullWidth}}'>
 			<div class='BenchmarksDashboard-charts-item-innerwrap'>
 				<div class='BenchmarksDashboard-charts-item-title'>{{title}}</div>
 				<div class='BenchmarksDashboard-charts-item-subtitle'>{{subtitle}}</div>

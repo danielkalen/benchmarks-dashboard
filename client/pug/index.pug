@@ -2,19 +2,12 @@ doctype html
 html
 	head
 		meta(charset='utf-8')
-		link(rel="stylesheet", href="/sass/index.sass")
+		link(rel="stylesheet", href="/sass/base.sass")
 		title Benchmarks Dashboard
 
 	
 
 	body
-		.BenchmarksDashboard-settingsBar
-			.BenchmarksDashboard-settingsBar-innerwrap
-				.BenchmarksDashboard-settingsBar-title Settings
-				.BenchmarksDashboard-settingsBar-list#settingsBar
-
-
-
 		script window.config = !{JSON.stringify(config)};
 		script window.dashboardOptions = !{JSON.stringify({title:options.title, subtitle:options.subtitle})};
 		script window.targetSuites = !{JSON.stringify(suites)};

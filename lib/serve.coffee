@@ -26,7 +26,6 @@ module.exports = (port, options)->
 	app.set 'view engine', 'pug'
 	app.set 'view cache', true
 	app.use compress()
-	# app.use express.static(options.dashboard, maxAge: 2592000000)
 	app.use bodyParser.json({limit:'500mb'}) # Enable JSON req parsing
 	app.use bodyParser.urlencoded({extended:true, limit:'500mb'})
 
@@ -45,7 +44,7 @@ module.exports = (port, options)->
 	app.get '/suite/:suite', (req, res, next)->
 		Promise.resolve()
 			.then ()-> require('./build').suite(req.params.suite, options)
-			.then (data)-> res.render 'suite', data
+			.then (suite)-> res.render 'suite', {suite}
 			.catch next
 
 	app.get '/dep/:suite/suite.js', (req, res, next)->
@@ -89,13 +88,11 @@ module.exports = (port, options)->
 
 	app.get '/get', (req, res, next)->
 		UA = helpers.resolveUA(req.query.UA)
-		responseResult = {'selfUA':UA, 'tests':DB.results or {}}
-		output = extend.clone.deep(responseResult)
-		res.json(output)
+		res.json 'selfUA':UA, 'tests':DB.results or []
 
 
 	app.post '/set', (req, res, next)->
-		req.body.nonSharedTest = if req.body.nonSharedTest is 'false' then false else if req.body.nonSharedTest then true
+		req.body.nonShared = if req.body.nonShared is 'false' then false else if req.body.nonShared then true
 		res.json(req.body)
 		DB.add(req.body)
 

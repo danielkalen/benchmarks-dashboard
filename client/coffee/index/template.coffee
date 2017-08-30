@@ -55,10 +55,10 @@ export suite = DOM.template(
 			verticalAlign: 'top'
 			boxSizing: 'border-box'
 			overflow: 'hidden'
-			width: '48%'
+			width: 'calc(50% - 25px)'
 			display: 'inline-table'
-			marginBottom: '2%'
-			marginRight: ()-> if @index % 2 then 0 else '2%'
+			marginBottom: 25
+			marginRight: ()-> if @index % 2 then 0 else 25
 			borderRadius: 3
 			boxShadow: '0px 0px 5px rgba(0,0,0,0.07)'
 
@@ -83,14 +83,14 @@ export suite = DOM.template(
 				ref: 'icon'
 				style:
 					boxSizing: 'border-box'
-					width: 50
-					height: 50
+					width: 54
+					height: 54
 					margin: '0 auto'
 					backgroundColor: 'rgba(0,0,0,0.1)'
 					borderRadius: '50%'
 					fontWeight: 400
 					fontSize: 21
-					lineHeight: '53px'
+					lineHeight: '58px'
 					textTransform: 'uppercase'
 					letterSpacing: "#{40/1e3}em"
 			]

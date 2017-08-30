@@ -12,7 +12,7 @@ class ChartRenderer
 
 	reset: ()->
 		@container.empty().append(template.chartGap.spawn()).childf
-		@render()
+		# @render()
 
 
 	calcData: ()->
@@ -61,7 +61,7 @@ class ChartRenderer
 				.replace '{{title}}', chartData.title
 				.replace '{{subtitle}}', chartData.subtitle
 				.replace '{{fullWidth}}', ''
-				.replace '{{nonSharedTest}}', if chartData.nonShared then 'nonSharedTest' else ''
+				.replace '{{nonShared}}', if chartData.nonShared then 'nonShared' else ''
 			
 			el$ = $(elMarkup).insertBefore @container.child.gap.raw
 			el$.after ' '
@@ -74,7 +74,7 @@ class ChartRenderer
 			.replace '{{title}}', 'Combined Results'
 			.replace '{{subtitle}}', 'Data from all benchmarks aggregated together for each library'
 			.replace '{{fullWidth}}', 'isFullWidth'
-			.replace '{{nonSharedTest}}', ''
+			.replace '{{nonShared}}', ''
 					
 		
 		el$ = $(elMarkup).prependTo @container.raw

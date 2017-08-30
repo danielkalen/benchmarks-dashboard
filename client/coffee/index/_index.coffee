@@ -13,13 +13,13 @@ Promise.config 'longStackTraces':false
 
 helpers = import './helpers'
 template = import './template'
+settings = import './settings'
 ChartRenderer = import './chartRenderer'
-SettingsBar = import './settingsBar'
+SettingsBar = import '../settingsBar'
 genChartSettings = import './genChartSettings'
 
 module.exports = (options, dashboardOptions, suites)->
 	options = helpers.extendDefaultOptions(options or {})
-	# window.opts = options
 	template.heading.spawn(data:dashboardOptions).appendTo(document.body)
 	template.list.spawn(data:{suites}).appendTo(document.body)
 	template.divider.spawn().appendTo(document.body)
@@ -30,6 +30,7 @@ module.exports = (options, dashboardOptions, suites)->
 		.get 'data'
 		.then (data)->
 			chartRenderer = new ChartRenderer(options, data, charts)
-			settingsBar = new SettingsBar(options, chartRenderer)
+			settingsBar = new SettingsBar(settings, options, chartRenderer)
+			return {chartRenderer, settingsBar}
 	
 

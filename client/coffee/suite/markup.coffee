@@ -8,7 +8,7 @@ module.exports =
 		<div class='BenchmarkSuite-list-gap'></div>
 	"
 	item: "
-		<div class='BenchmarkSuite-list-item {{nonSharedTest}}'>
+		<div class='BenchmarkSuite-list-item {{nonShared}}'>
 			<div class='BenchmarkSuite-list-item-innerwrap'>
 				<div class='BenchmarkSuite-list-item-title'>{{title}}</div>
 				<div class='BenchmarkSuite-list-item-subtitle'>{{subtitle}}</div>

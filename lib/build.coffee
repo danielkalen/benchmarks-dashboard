@@ -38,7 +38,7 @@ buildSuite = (target, options)->
 		.then (suite)-> extend.clone suite
 		.then (suite)->
 			suite.deps = suite.deps.map (dep,index)->
-				"/dep/#{suite.suite}/#{index}"
+				"/dep/#{suite.fullname}/#{index}"
 
 			return suite
 
