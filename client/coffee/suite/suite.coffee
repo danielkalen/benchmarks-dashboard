@@ -12,7 +12,8 @@ class Suite
 		@tests = []
 
 		@heading.child.button.on 'click', ()=>
-			Promise.mapSeries @tests, (test)-> test.run()
+			Promise.mapSeries @tests, (test, index)->
+				test.run().then ()-> throw new Error("test ##{index+1} errored")
 
 	add: (test)->
 		@tests.push(test)
