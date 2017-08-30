@@ -1,16 +1,5 @@
-@Promise = @PromiseB = import 'bluebird'
-@jQuery = @$ = import 'jquery'
-@DOM = import 'quickdom'
-@SimplyBind = import '@danielkalen/simplybind'
-@Highcharts = import '@danielkalen/highcharts/code/highcharts'
-@HighchartsDrilldown = import '@danielkalen/highcharts/code/modules/drilldown'
 axios = import 'axios'
 UAParser = import 'ua-parser-js'
-Promise.config 'longStackTraces':false
-(import '@danielkalen/polyfills')()
-
-
-
 helpers = import './helpers'
 template = import './template'
 settings = import './settings'

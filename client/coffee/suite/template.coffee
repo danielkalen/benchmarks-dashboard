@@ -174,8 +174,12 @@ export test = DOM.template(
 			ref: 'sandbox'
 			style:
 				display: 'none'
-				$running:
-					display: 'block'
+
+			events: 'stateChange:running': (running)-> if @related.settings.showSandbox
+				if running
+					@show()
+				else
+					@hide()
 		]
 		
 		['div'

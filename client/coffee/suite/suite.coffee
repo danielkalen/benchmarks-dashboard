@@ -9,17 +9,32 @@ class Suite
 		@list = template.list.spawn().appendTo(document.body)
 		@settingsBar = new SettingsBar(settings, @settings = {storeResults:store.get('storeResults')})
 		@userAgent = window.navigator.userAgent
+		@state = running:false
 		@tests = []
 
-		@heading.child.button.on 'click', ()=>
-			Promise.mapSeries @tests, (test, index)->
-				test.run().then ()-> throw new Error("test ##{index+1} errored")
+		@_attachBindings()
+
+
+	_attachBindings: ()->
+		@heading.child.button.on 'click', @run.bind(@)
+
+		SimplyBind('running').of(@state)
+			.to (running)=> @heading.state {running}
+
 
 	add: (test)->
 		@tests.push(test)
 		@list.append(test.el)
 		return test
 
+	run: ()-> unless @state.running
+		Promise.resolve(@tests).bind(@)
+			.tap ()-> @state.running = true
+			.mapSeries (test, index)->
+				test.run().then ()-> if test.state.errored
+					throw new Error("test ##{index+1} errored")
+			
+			.finally ()-> @state.running = false
 
 
 module.exports = Suite

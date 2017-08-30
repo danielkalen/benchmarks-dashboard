@@ -3,11 +3,12 @@ noop = ()->;
 module.exports = 
 	title: ''
 	subtitle: ''
-	setupFn: noop
-	testFn: noop
-	teardownFn: noop
+	setup: noop
+	test: noop
+	teardown: noop
+	showSandbox: true
 	async: false
-	delay: 10
+	delay: false
 	minTime: 1
 	maxTime: 1
 	minSamples: 0

@@ -11,15 +11,14 @@ class Test
 	constructor: (settings)->
 		return new Test(arguments[0]) if @constructor isnt Test
 		@settings = extend.clone(defaults, settings)
-		@settings.nonShared = @settings.nonSharedTest if @settings.nonSharedTest?
 		@suite = window.suite
 		@state = running:false, errored:false, result:false
 		@context = Object.create(null)
-		@el = template.test.spawn(data:@settings)
-		@settings.testFn = @settings.testFn.bind(@context)
-		@settings.teardownFn ?= ()=> @el.child.sandbox.empty()
+		@el = template.test.spawn(data:@settings, {relatedInstance:@})
+		@settings.task = @settings.task.bind(@context)
+		@settings.teardown ?= ()=> @el.child.sandbox.empty()
 		@benchmark = new Benchmark.Suite('suite', @settings)
-			.add 'test', ()=> @settings.testFn()
+			.add 'test', (done)=> @settings.task(done)
 
 		@_attachBindings()
 		@suite.add(@)
@@ -32,9 +31,6 @@ class Test
 		
 		SimplyBind('errored').of(@state)
 			.to (errored)=> @el.state {errored}
-			.and.to ()=> setTimeout ()=>
-				@state.errored = false
-			, 3000
 
 		SimplyBind('result').of(@state)
 			.to (result)=> if result
@@ -53,15 +49,17 @@ class Test
 
 
 	run: ()-> unless @state.running
-		@state.running =
-		Promise.delay().bind(@)
-			.then ()-> @settings.setupFn.call(@context, @el.child.sandbox)
+		@state.errored = false
+		@state.running = true
+		
+		Promise.delay(10).bind(@)
+			.then ()-> @settings.setup.call(@context, @el.child.sandbox)
 			.then ()->
 				result = promiseEvent(@benchmark, 'complete')
 				@benchmark.run()
 				return result
 			
-			.tap ()-> @settings.teardownFn.call(@context, @el.child.sandbox)
+			.tap ()-> @settings.teardown.call(@context, @el.child.sandbox)
 			.then ({target})->
 				@state.result = {ops:target.hz, margin:target.stats.rme, time:target.times.elapsed, samples:target.stats.sample.length}
 				@storeResults()

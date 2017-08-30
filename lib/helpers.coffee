@@ -63,7 +63,7 @@ exports.resolveSuiteDeps = ((suite)->
 SimplyImport = require 'simplyimport'
 exports.compileCoffee = ((file)->
 	SimplyImport {file}
-)#.memoize()
+).memoize()
 
 
 Sass = Promise.promisifyAll require 'node-sass'
