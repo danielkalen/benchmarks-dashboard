@@ -4,7 +4,7 @@ store = import 'store'
 import template from './template'
 
 class SettingsBar
-	constructor: (@schema, @options={}, @chartRenderer)->
+	constructor: (@schema, @options={}, @onChange)->
 		@passedInitalLoad = false
 		@fields = []
 		@barEl = template.spawn()
@@ -30,16 +30,12 @@ class SettingsBar
 				.and.to @resetScroll.bind(@)
 		
 		Promise.delay(300).then ()=>
-			SimplyBind(()=>
-				@chartRenderer?.container.style {paddingBottom: @barEl.height}
-			).updateOn('event:resize').of(window)
-
 			@passedInitalLoad = true
 
 
 	resetScroll: ()-> if @passedInitalLoad
 		currentScrollPos = window.scrollY
-		@chartRenderer?.reset()
+		@onChange?()
 		window.scrollTo(window.scrollX, currentScrollPos)
 
 
