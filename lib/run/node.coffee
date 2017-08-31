@@ -45,7 +45,6 @@ class NodeRunner
 						window.suite.run()
 							.then (result)-> done(null, result)
 							.catch done
-					.end()
 
 			.then ()-> console.log "Finished #{chalk.dim suite.fullname} in #{chalk.green (Date.now()-startTime)+'ms'}"
 
