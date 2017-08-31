@@ -18,8 +18,6 @@ class NodeRunner
 
 	getSuites: ()->
 		Promise.bind(@)
-			# .then ()-> @goto(@url)
-			# .then ()-> @browser.evaluate ()-> window.targetSuites
 			.then ()-> require('../build').index()
 			.get 'suites'
 			.then (suites=[])-> helpers.sortSuites(suites, @settings.desc)
@@ -37,8 +35,9 @@ class NodeRunner
 		startTime = Date.now()
 		
 		Promise.bind(@)
-			.then ()-> console.log "Started #{chalk.dim suite.fullname}"
+			.then ()-> console.log "Starting #{chalk.dim suite.fullname}"
 			.then ()-> @goto "#{@url}/suite/#{suite.fullname}"
+			.then ()-> console.log "Started #{chalk.dim suite.fullname}"
 			.then ()->
 				@browser
 					.evaluate (done)->
@@ -46,7 +45,7 @@ class NodeRunner
 							.then (result)-> done(null, result)
 							.catch done
 
-			.then ()-> console.log "Finished #{chalk.dim suite.fullname} in #{chalk.green (Date.now()-startTime)+'ms'}"
+			.then ()-> console.log "Finished #{chalk.dim suite.fullname} in #{chalk.green (Date.now()-startTime)+'ms'}\n"
 
 
 
